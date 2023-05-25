@@ -1,17 +1,27 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./theme.css";
+import App from "./App";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+function ColorfulBorder() {
+  return (
+    <ul className="border-container">
+      <li className="border-item" style={{ background: "var(--red)" }} />
+      <li className="border-item" style={{ background: "var(--blue)" }} />
+      <li className="border-item" style={{ background: "var(--pink)" }} />
+      <li className="border-item" style={{ background: "var(--yellow)" }} />
+      <li className="border-item" style={{ background: "var(--aqua)" }} />
+    </ul>
+  );
+}
+
+const rootElement = document.getElementById("root");
+ReactDOM.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <ColorfulBorder />
+    <div className="container">
+      <App />
+    </div>
+  </React.StrictMode>,
+  rootElement
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
