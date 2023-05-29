@@ -114,18 +114,14 @@ const newsletters = [
   },
 ];
 
-function Issue() {
-  const { idPublicaction, idIssue } = useParams();
+function Issue({ issues }) {
+  const { idIssue } = useParams();
   const { url, path } = useRouteMatch();
   console.log("url", url);
   console.log("path", path);
 
-  const publication = newsletters.find(
-    (object) => object.id === idPublicaction
-  );
-
-  const issues = publication.issues.find((object) => object.id === idIssue);
-  const { name, links } = issues;
+  const foundIssues = issues.find((object) => object.id === idIssue);
+  const { name, links } = foundIssues;
 
   return (
     <div>
@@ -168,7 +164,7 @@ function Publication() {
         ))}
       </ul>
       <Route path={`${path}/:idIssue`}>
-        <Issue />
+        <Issue issues={issues} />
       </Route>
     </div>
   );
