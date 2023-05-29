@@ -115,17 +115,84 @@ const newsletters = [
 ];
 
 function Issue() {
-  return <div></div>;
+  const { idPublicaction, idIssue } = useParams();
+  const { url, path } = useRouteMatch();
+  console.log("url", url);
+  console.log("path", path);
+
+  const publication = newsletters.find(
+    (object) => object.id === idPublicaction
+  );
+
+  const issues = publication.issues.find((object) => object.id === idIssue);
+  const { name, links } = issues;
+
+  return (
+    <div>
+      <hr />
+      <h3>{name}</h3>
+      <ul>
+        {links.map(({ title, url }) => {
+          return (
+            <li key={title}>
+              <a target="_blank" rel="noreferrer" href={url}>
+                {title}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
 }
 
 function Publication() {
-  return <div></div>;
+  const { idPublicaction } = useParams();
+  const { url, path } = useRouteMatch();
+
+  const publication = newsletters.find(
+    (object) => object.id === idPublicaction
+  );
+  const { description, name, issues } = publication;
+
+  return (
+    <div>
+      <hr />
+      <h2>{name}</h2>
+      <p>{description}</p>
+      <ul>
+        {issues.map(({ name: nameIssue, id: idIssue }) => (
+          <li key={idIssue}>
+            <Link to={`${url}/${idIssue}`}>{nameIssue}</Link>
+          </li>
+        ))}
+      </ul>
+      <Route path={`${path}/:idIssue`}>
+        <Issue />
+      </Route>
+    </div>
+  );
 }
 
 function Newsletters() {
+  const { url, path } = useRouteMatch();
+
   return (
     <div>
       <h1>Newsletters</h1>
+      <ul>
+        {newsletters.map(({ name, id, description }) => {
+          return (
+            <li key={id}>
+              <Link to={`${url}/${id}`}>{name}</Link>
+              <p>{description}</p>
+            </li>
+          );
+        })}
+      </ul>
+      <Route path={`${path}/:idPublicaction`}>
+        <Publication />
+      </Route>
     </div>
   );
 }
@@ -149,7 +216,12 @@ export default function App() {
 
         <hr />
 
-        {/* Top-level Routes here */}
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/newsletters">
+          <Newsletters />
+        </Route>
       </div>
     </Router>
   );
